@@ -7,4 +7,12 @@ public class Box {
         this.token = token;
         this.position = position;
     }
+
+    public char getToken() {
+        return token;
+    }
+
+    public int getPosition() {
+        return position;
+    }
 }
