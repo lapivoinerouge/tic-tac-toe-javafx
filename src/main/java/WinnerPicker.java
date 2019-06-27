@@ -1,6 +1,7 @@
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class WinnerPicker {
@@ -58,56 +59,88 @@ public class WinnerPicker {
         }
 
         //check lines for column
-        Set<Integer> columnsX = fullBoxes.entrySet().stream()
+        long columnsX = fullBoxes.entrySet().stream()
                 .map(entry -> entry.getValue())
                 .filter(box -> box.getToken() == 'X')
                 .map(box -> box.getColumn())
-                .collect(Collectors.toSet());
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .filter(e -> e.getValue() > 2)
+                .map(e -> e.getKey())
+                .count();
 
-        Set<Integer> columnsO = fullBoxes.entrySet().stream()
+        long columnsO = fullBoxes.entrySet().stream()
                 .map(entry -> entry.getValue())
                 .filter(box -> box.getToken() == 'O')
                 .map(box -> box.getColumn())
-                .collect(Collectors.toSet());
-
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .filter(e -> e.getValue() > 2)
+                .map(e -> e.getKey())
+                .count();
 
         //check lines for rows
-        Set<Integer> rowsX = fullBoxes.entrySet().stream()
+        long rowsX = fullBoxes.entrySet().stream()
                 .map(entry -> entry.getValue())
                 .filter(box -> box.getToken() == 'X')
                 .map(box -> box.getRow())
-                .collect(Collectors.toSet());
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .filter(e -> e.getValue() > 2)
+                .map(e -> e.getKey())
+                .count();
 
-        Set<Integer> rowsO = fullBoxes.entrySet().stream()
+        long rowsO = fullBoxes.entrySet().stream()
                 .map(entry -> entry.getValue())
                 .filter(box -> box.getToken() == 'O')
                 .map(box -> box.getRow())
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .filter(e -> e.getValue() > 2)
+                .map(e -> e.getKey())
+                .count();
+
+        if (columnsX > 0|| rowsX > 0) {
+            System.out.println("Player X wins!");
+        } else if (columnsO > 0 || rowsO > 0) {
+            System.out.println("Player O wins!");
+        }
+
+        //check lines for diagonals
+        Set<Integer> diagonalX = fullBoxes.entrySet().stream()
+                .map(entry -> entry.getValue())
+                .filter(box ->box.getToken() == 'X')
+                .map(box -> box.getPosition())
                 .collect(Collectors.toSet());
 
+        if(diagonalX.contains(4)) {
+            if(diagonalX.contains(0)) {
+                if(diagonalX.contains(8)) {
+                    System.out.println("Player X wins diago");
+                }
+            } else if(diagonalX.contains(2)) {
+                if(diagonalX.contains(6)) {
+                    System.out.println("Player X wins diago");
+                }
+            }
+        }
 
-//        //check lines for diagonals
-//        Set<Integer> diagonalX = fullBoxes.entrySet().stream()
-//                .filter(entry -> entry.getValue().getToken() == 'X')
-//                .map(entry -> entry.getKey())
-//                .collect(Collectors.toSet());
-//
-//
-//
-//        Set<Integer> diagonalO = fullBoxes.entrySet().stream()
-//                .filter(entry -> entry.getValue().getToken() == 'O')
-//                .map(entry -> entry.getKey())
-//                .collect(Collectors.toSet());
+        Set<Integer> diagonalO = fullBoxes.entrySet().stream()
+                .map(entry -> entry.getValue())
+                .filter(box ->box.getToken() == 'X')
+                .map(box -> box.getPosition())
+                .collect(Collectors.toSet());
 
-
-        System.out.println(columnsX);
-        System.out.println(columnsO);
-
-        if (columnsX.size() == 3 || rowsX.size() == 3) {
-            System.out.println("Player X wins!");
-        } else if (columnsO.size() == 3 || rowsO.size() == 3) {
-            System.out.println("Player O wins!");
-
+        if(diagonalO.contains(4)) {
+            if(diagonalO.contains(0)) {
+                if(diagonalO.contains(8)) {
+                    System.out.println("Player O wins diago");
+                }
+            } else if(diagonalO.contains(2)) {
+                if(diagonalO.contains(6)) {
+                    System.out.println("Player O wins diago");
+                }
+            }
         }
     }
-
 }

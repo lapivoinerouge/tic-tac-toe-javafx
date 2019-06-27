@@ -15,9 +15,7 @@ public class User {
             flow.getChildren().remove(event.getTarget());
             Box box = new Box('X', i);
             fullBoxes.put(i, box);
-            System.out.println(fullBoxes.size());
             new WinnerPicker().pickWinner(fullBoxes);
-
         }
     }
 }

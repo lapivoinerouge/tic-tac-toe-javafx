@@ -27,7 +27,6 @@ public class Computer {
             flow.getChildren().add(computerChose, new ImageView(new Image(Board.class.getResourceAsStream("o.png"))));
             Box box = new Box('O', computerChose);
             fullBoxes.put(computerChose, box);
-            System.out.println(fullBoxes.size());
         } else if (!board.isFull()){
             computerMove(fullBoxes, flow);
         }
