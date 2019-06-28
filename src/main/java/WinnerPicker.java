@@ -142,7 +142,7 @@ public class WinnerPicker {
 
         Set<Integer> diagonalO = fullBoxes.entrySet().stream()
                 .map(entry -> entry.getValue())
-                .filter(box ->box.getToken() == 'X')
+                .filter(box ->box.getToken() == 'O')
                 .map(box -> box.getPosition())
                 .collect(Collectors.toSet());
 

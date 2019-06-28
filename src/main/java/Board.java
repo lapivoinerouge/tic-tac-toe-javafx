@@ -58,7 +58,10 @@ public class Board {
 
     public boolean isOver() {
 
-        if(fullBoxes.size() == 9) {
+        if(picker.getWinner() != ' ') {
+            return true;
+
+        } else if(fullBoxes.size() == 9) {
             Alert fullBoard = new Alert(Alert.AlertType.CONFIRMATION);
             fullBoard.setTitle("GAME OVER");
             fullBoard.setHeaderText("No more possible move. Do you want to play again?");
@@ -71,9 +74,6 @@ public class Board {
             }
             return true;
 
-        } else if(picker.getWinner() != ' ') {
-            return true;
-
-        } return false;
+        }  return false;
     }
 }
