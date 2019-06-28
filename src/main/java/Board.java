@@ -45,7 +45,7 @@ public class Board {
                 if(!isOver()) {
                     user.userMove(fullBoxes, flow, event);
                     picker.pickWinner(fullBoxes);
-                    if (!isOver() || picker.getWinner() != ' ') {
+                    if (!isOver()) {
                         computer.computerMove(fullBoxes, flow);
                         picker.pickWinner(fullBoxes);
                     }
@@ -69,6 +69,9 @@ public class Board {
             } else {
                 Platform.exit();
             }
+            return true;
+
+        } else if(picker.getWinner() != ' ') {
             return true;
 
         } return false;
