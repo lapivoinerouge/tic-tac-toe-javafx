@@ -25,12 +25,11 @@ public class Computer {
         if (impossibleMove.size() == 0) {
             flow.getChildren().remove(computerChose);
             flow.getChildren().add(computerChose, new ImageView(new Image(Board.class.getResourceAsStream("o.png"))));
-            Box box = new Box('O', computerChose);
-            fullBoxes.put(computerChose, box);
-        } else if (!board.isFull()){
+            fullBoxes.put(computerChose, new Box('O', computerChose));
+        } else if (!board.isOver()){
             computerMove(fullBoxes, flow);
         }
-        new WinnerPicker().pickWinner(fullBoxes);
+
     }
 }
 

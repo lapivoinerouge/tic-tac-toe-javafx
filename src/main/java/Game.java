@@ -1,15 +1,10 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Game extends Application {
-
-
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -25,6 +20,16 @@ public class Game extends Application {
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
+    }
+
+    public void restart() {
+
+        Game game = new Game();
+        try {
+            game.start(new Stage());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     public static void main(String args[]) {

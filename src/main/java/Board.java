@@ -1,12 +1,18 @@
+import javafx.application.Platform;
+import javafx.application.Preloader;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.Stage;
 
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.*;
 
 
@@ -17,6 +23,7 @@ public class Board {
 
     private User user = new User();
     private Computer computer = new Computer();
+    private WinnerPicker picker = new WinnerPicker();
 
     public FlowPane getBoard() {
 
@@ -35,9 +42,13 @@ public class Board {
         flow.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                user.userMove(fullBoxes, flow, event);
-                if (!isFull()) {
-                    computer.computerMove(fullBoxes, flow);
+                if(!isOver()) {
+                    user.userMove(fullBoxes, flow, event);
+                    picker.pickWinner(fullBoxes);
+                    if (!isOver() || picker.getWinner() != ' ') {
+                        computer.computerMove(fullBoxes, flow);
+                        picker.pickWinner(fullBoxes);
+                    }
                 }
             }
         });
@@ -45,12 +56,21 @@ public class Board {
         return flow;
     }
 
-    public boolean isFull() {
-        if(fullBoxes.size() == 9) {
-            System.out.println("GAME OVER");
-            return true;
-        }
-        return false;
-    }
+    public boolean isOver() {
 
+        if(fullBoxes.size() == 9) {
+            Alert fullBoard = new Alert(Alert.AlertType.CONFIRMATION);
+            fullBoard.setTitle("GAME OVER");
+            fullBoard.setHeaderText("No more possible move. Do you want to play again?");
+            Optional<ButtonType> result = fullBoard.showAndWait();
+            if(result.get() == ButtonType.OK) {
+                Game newGame = new Game();
+                newGame.restart();
+            } else {
+                Platform.exit();
+            }
+            return true;
+
+        } return false;
+    }
 }

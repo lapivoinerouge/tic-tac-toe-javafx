@@ -1,10 +1,21 @@
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class WinnerPicker {
+
+    private char winner = ' ';
+
+    public char getWinner() {
+        return winner;
+    }
 
     public void pickWinner(HashMap<Integer,Box> fullBoxes) {
 
@@ -101,9 +112,11 @@ public class WinnerPicker {
                 .count();
 
         if (columnsX > 0|| rowsX > 0) {
-            System.out.println("Player X wins!");
+            winner = 'X';
+            announceWinner(winner);
         } else if (columnsO > 0 || rowsO > 0) {
-            System.out.println("Player O wins!");
+            winner = 'O';
+            announceWinner(winner);
         }
 
         //check lines for diagonals
@@ -116,11 +129,13 @@ public class WinnerPicker {
         if(diagonalX.contains(4)) {
             if(diagonalX.contains(0)) {
                 if(diagonalX.contains(8)) {
-                    System.out.println("Player X wins diago");
+                    winner = 'X';
+                    announceWinner(winner);
                 }
             } else if(diagonalX.contains(2)) {
                 if(diagonalX.contains(6)) {
-                    System.out.println("Player X wins diago");
+                    winner = 'X';
+                    announceWinner(winner);
                 }
             }
         }
@@ -134,13 +149,28 @@ public class WinnerPicker {
         if(diagonalO.contains(4)) {
             if(diagonalO.contains(0)) {
                 if(diagonalO.contains(8)) {
-                    System.out.println("Player O wins diago");
+                    winner = 'O';
+                    announceWinner(winner);
                 }
             } else if(diagonalO.contains(2)) {
                 if(diagonalO.contains(6)) {
-                    System.out.println("Player O wins diago");
+                    winner = 'O';
+                    announceWinner(winner);
                 }
             }
+        }
+    }
+
+    public void announceWinner(char winner) {
+        Alert gameOver = new Alert(Alert.AlertType.CONFIRMATION);
+        gameOver.setTitle("WINNER!!!");
+        gameOver.setHeaderText(winner + " wins. Do you want to play again?");
+        Optional<ButtonType> result1 = gameOver.showAndWait();
+        if(result1.get() == ButtonType.OK) {
+            Game newGame = new Game();
+            newGame.restart();
+        } else {
+            Platform.exit();
         }
     }
 }
