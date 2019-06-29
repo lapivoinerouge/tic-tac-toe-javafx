@@ -9,8 +9,6 @@ public class User {
 
     public void userMove(HashMap<Integer, Box> fullBoxes, FlowPane flow, MouseEvent event) {
 
-        WinnerPicker picker = new WinnerPicker();
-
         if (fullBoxes.get(flow.getChildren().indexOf(event.getTarget())) == null) {
             int i = flow.getChildren().indexOf(event.getTarget());
             flow.getChildren().add(i, new ImageView(new Image(Board.class.getResourceAsStream("x.png"))));

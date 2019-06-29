@@ -12,8 +12,6 @@ public class Computer {
     public void computerMove(HashMap<Integer,Box> fullBoxes, FlowPane flow) {
 
         Board board = new Board();
-        WinnerPicker picker = new WinnerPicker();
-
         Random random = new Random();
         int computerChose = random.nextInt(9);
 
